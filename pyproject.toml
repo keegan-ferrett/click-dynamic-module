@@ -1,0 +1,19 @@
+[project]
+name = "cli-plugs"
+version = "0.1.0"
+description = "Proof of concept: dynamic click plugins via entry points"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = []
+
+[tool.uv.workspace]
+members = [
+    "cli_host",
+    "plugins/*",
+]
+
+[tool.uv.sources]
+cli-host = { workspace = true }
+hello-plugin = { workspace = true }
+research-plugin = { workspace = true }
+home-plugin = { workspace = true }

@@ -1,0 +1,35 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: astral-sh/setup-uv@v4
+
+      - name: Build cli-host
+        run: uv build cli_host/ --out-dir dist/
+
+      - name: Build hello-plugin
+        run: uv build plugins/hello_plugin/ --out-dir dist/
+
+      - name: Build research-plugin
+        run: uv build plugins/research_plugin/ --out-dir dist/
+
+      - name: Build home-plugin
+        run: uv build plugins/home_plugin/ --out-dir dist/
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*
+          generate_release_notes: true

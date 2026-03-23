@@ -21,6 +21,22 @@ def cli():
     """A pluggable CLI — install plugins to add new commands."""
 
 
+@cli.command("plugins")
+@click.option(
+    "--source",
+    type=click.Choice(["github", "pip"]),
+    default="github",
+    help="Where to look for plugins.",
+)
+@click.option("--tag", default="latest", help="GitHub Release tag (github source only).")
+@click.option("--index-url", default=None, help="Pip registry URL (pip source only).")
+def browse_plugins(source: str, tag: str, index_url: str | None):
+    """Browse and install available plugins."""
+    from cli_host.tui import browse_and_install
+
+    browse_and_install(source=source, tag=tag, index_url=index_url)
+
+
 load_plugins(cli)
 
 if __name__ == "__main__":
